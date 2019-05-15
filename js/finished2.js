@@ -44,9 +44,9 @@
     let axesLimits = findMinMax(year_data, pop_data);
 
     // draw axes and return scaling + mapping functions
-    let mapFunctions = drawAxes(axesLimits, "pop_mlns", "time", svgLineGraph, 
+    let mapFunctions = drawAxes(axesLimits,  "time", "pop_mlns", svgLineGraph, 
                                 { min: 50, max: 450 }, { min: 50, max: 450 });
-
+   console.log(mapFunctions.xScale);
     // draw title and axes labels
     makeLabels();
     dropDownCountry(mapFunctions);
@@ -77,8 +77,7 @@
   function makeLineGraph(funcs, country) {
     filterByCountry(country);
     // get arrays of fertility rate data and life Expectancy data
-    let pop_data_filtered = data.map((row) => parseFloat(row["pop_mlns"]));
-    plotLineGraph(funcs, pop_data_filtered);
+    plotLineGraph(funcs);
   }
 
   function filterByCountry(country) {
@@ -110,17 +109,17 @@
       .text('Population Size (millions)');
   }
 
-  function plotLineGraph(funcs, popData) {
+  function plotLineGraph(funcs) {
     let line = d3.line()
-      .x((d) => funcs.x(d))
-      .y((d) => funcs.y(d));
-
+      .x((d) => (funcs.x(d)))
+      .y((d) => (funcs.y(d)));
+    let pop_data_filtered = data.map((row) => parseFloat(row["pop_mlns"]));
     // make tooltip
     let div = d3.select("body").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
     svgLineGraph.append('path')
-      .datum(popData)
+      .datum(pop_data_filtered)
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-linejoin", "round")
