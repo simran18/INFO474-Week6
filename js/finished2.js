@@ -140,6 +140,7 @@
   }
 
   function makeScatterPlot(year, secondSvg) {
+    secondSvg.html("");
     svgScatterPlot.html("");
     let data_year = data.filter((row) => row['time'] == year);
 
@@ -155,8 +156,8 @@
     // draw axes and return scaling + mapping functions
     let mapFunctions_div = drawAxesPlot(axesLimits, "fertility_rate", "life_expectancy", secondSvg);
 
-    plotData(mapFunctions, data_year, year);
-    plotData(mapFunctions_div, data_year, year);
+    plotData(mapFunctions, data_year, year, svgScatterPlot);
+    plotData(mapFunctions_div, data_year, year, secondSvg);
   }
 
   function drawAxesPlot(limits, x, y, svg) {
@@ -205,7 +206,7 @@
 
   // plot all the data points on the SVG
   // and add tooltip functionality
-  function plotData(map, fData, year) {
+  function plotData(map, fData, year, svg) {
     // get population data as array
     let pop_data = fData.map((row) => +row["pop_mlns"]);
     let pop_limits = d3.extent(pop_data);
@@ -219,7 +220,7 @@
     let yMap = map.y;
 
     // append data to SVG and plot as points
-    svgScatterPlot.selectAll('.dot')
+    svg.selectAll('.dot')
       .data(fData)
       .enter()
       .append('circle')
@@ -228,7 +229,7 @@
       .attr('r', (d) => pop_map_func(d["pop_mlns"]))
       .attr('fill', "#4286f4");
 
-    svgScatterPlot.append('text')
+    svg.append('text')
       .attr('x', 230)
       .attr('y', 490)
       .style('font-size', '10pt')
@@ -241,7 +242,7 @@
       .style('font-size', '12pt')
       .text("Life Expectancy vs Fertility Rate for all countries in " + year);
 
-    svgScatterPlot.append('text')
+    svg.append('text')
       .attr('transform', 'translate(15, 300)rotate(-90)')
       .style('font-size', '10pt')
       .text('Life Expectancy (years)');

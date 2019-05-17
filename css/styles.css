@@ -12,7 +12,7 @@ path {
     stroke-width: 1;
 }
 
-div.tooltip {
+div.tooltip svg {
     position: absolute;
     text-align: center;
     width: 120px;
