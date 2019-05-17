@@ -95,6 +95,7 @@
     // make tooltip
     let div = d3.select("body")
       .append("div")
+      .attr("height", 500)
       .attr("class", "tooltip")
       .style("opacity", 0);
 
@@ -128,7 +129,7 @@
         div.transition()
           .duration(300)
           .style("opacity", .9);
-        div.style("left", (d3.event.pageX) + "px")
+        svgToolTip.style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
         makeScatterPlot(d.time, svgToolTip)
       })
@@ -227,7 +228,7 @@
       .attr('cx', xMap)
       .attr('cy', yMap)
       .attr('r', (d) => pop_map_func(d["pop_mlns"]))
-      .attr('fill', "#4286f4");
+      .attr('fill', "#ff9999");
 
     svg.append('text')
       .attr('x', 230)
@@ -235,7 +236,7 @@
       .style('font-size', '10pt')
       .text('Fertitlity Rates');
 
-    svgScatterPlot.append('text')
+    svg.append('text')
       .attr('x', 50)
       .attr('y', 30)
       .data(fData)
